@@ -4,6 +4,7 @@ import { DoubleSide } from "three";
 // const svgURL = `https://raw.githubusercontent.com/`
 //   + `Tresjs/assets/main/svgs/cientos_heart.svg`;
 const earth = `/models/earth.glb`;
+// const start = "public/Faverton logo.svg"
 
 const boxGroupRef = ref();
 const earthRef = ref();
@@ -54,6 +55,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener(`mousemove`, updateMousePosition);
 });
+const svgURL = `Faverton logo.svg`;
 </script>
 
 <template>
@@ -70,11 +72,13 @@ onUnmounted(() => {
             :metalness="0.05"
           />
         </RoundedBox>
-        <!-- <SVG
+        <Suspense>
+          <SVG
             :src="svgURL"
-            :position="[-0.4, -0.2, 1.13]"
-            :scale="0.01"
-          /> -->
+            :position="[-0.4, -0.4, 1.13]"
+            :scale="0.001"
+          />
+        </Suspense>
       </TresGroup>
       <Suspense>
         <TresGroup ref="earthRef">
