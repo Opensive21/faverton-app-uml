@@ -39,32 +39,34 @@ onMounted(() => {
 <template>
   <div>
     <AppHeader />
-    <div class="ml-10 w-2/4 flex flex-col justify-center h-screen">
-      <div
-        ref="titleSection1"
-        class="p-5"
-      >
-        <h1 class="text-7xl font-extrabold">
-          Lorem ipsum dolor sit amet wind turbine
-        </h1>
-      </div>
-      <div
-        ref="subTitleSection1"
-        class="p-5"
-      >
-        <p class="text-3xl">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptatum deleniti omnis, excepturi
-        </p>
-      </div>
-      <div
-        ref="buttonSection1"
-        class="p-5"
-      >
-        <NuxtLink
-          to="/"
-          text="mor information"
-          class="text-3xl border-2 border-black p-2 hover:bg-sky-700 hover:text-white"
-        />
+    <div class="bg-[url('../Ventilateurs.jpg')] bg-cover">
+      <div class=" ml-10 w-2/4 flex flex-col justify-center h-screen">
+        <div
+          ref="titleSection1"
+          class="p-5"
+        >
+          <h1 class="text-7xl font-extrabold">
+            Lorem ipsum dolor sit amet wind turbine
+          </h1>
+        </div>
+        <div
+          ref="subTitleSection1"
+          class="p-5"
+        >
+          <p class="text-3xl">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro voluptatum deleniti omnis, excepturi
+          </p>
+        </div>
+        <div
+          ref="buttonSection1"
+          class="p-5"
+        >
+          <NuxtLink
+            to="/"
+            text="mor information"
+            class="text-3xl border-2 border-black p-2 hover:bg-sky-700 hover:text-white"
+          />
+        </div>
       </div>
     </div>
     <div class="h-[50vh]" />
