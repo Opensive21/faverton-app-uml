@@ -1,14 +1,13 @@
-<script lang="ts" setup>
-
-</script>
-
 <template>
   <div>
-    <IntroductionFarmeBackground />
+    <IntroFarmeBackground />
     <AppHeader />
-    <IntroductionIntro />
-    <IntroductionWindTurbine />
-    <IntroductionBioGasSolarPanel />
-    <IntroductionHydroElectric />
+    <IntroPresent />
+    <IntroGreenEnergyProduction />
+    <IntroOrganicWasteRecycling />
+    <IntroSustainableAgriculture />
+    <IntroEducationAndWorkshops />
+    <IntroRestaurantAndCulturalActivities />
+    <IntroCoworkingAndAccommodation />
   </div>
 </template>

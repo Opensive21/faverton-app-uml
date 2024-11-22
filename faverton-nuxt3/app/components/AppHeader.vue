@@ -1,17 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
 const isMenuOpen = ref(false);
+const avatarUrl = ref(``);
+const name = ref(``);
+
 const menuItems = [
   { href: `http://`, text: `Anatomy` },
   { href: `http://`, text: `Ecology` },
   { href: `http://`, text: `Intelligence` },
   { href: `http://`, text: `Mythology` },
+  // { href: `http://`, text: `Connexion` },
 ];
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
+const goToLogin = () => {
+  navigateTo(`/login`);
+};
+const goToProfile = () => {
+  navigateTo(`/profile`);
+};
+
+onMounted(async () => {
+  if (user.value) {
+    // Récupérez l'URL de l'avatar depuis votre base de données ou API
+    // Ceci est un exemple, adaptez-le à votre structure de données
+    const { data, error } = await supabase
+      .from(`profiles`)
+      .select(`username, avatar_url`)
+      .eq(`id`, user.value.id)
+      .single();
+
+    if (data && !error) {
+      avatarUrl.value = data.avatar_url;
+      name.value = data.username;
+    }
+  }
+});
 </script>
 
 <template>
@@ -26,23 +54,49 @@ const toggleMenu = () => {
       :class="{ 'is-visible': isMenuOpen }"
     >
       <div class="card__header">
-        <div class="menu">
+        <div class="flex items-center">
           <div
             :class="['menu__icon', { open: isMenuOpen }]"
             @click="toggleMenu"
           >
             <span /><span /><span />
           </div>
-          <a
-            v-for="(item, index) in menuItems"
-            :key="index"
-            :href="item.href"
-            target="_blank"
-            :class="['menu__item', { 'menu__item--is-visible': isMenuOpen }]"
-            :style="{ transitionDelay: `${index * 75}ms` }"
-          >
-            {{ item.text }}
-          </a>
+          <div>
+            <a
+              v-for="(item, index) in menuItems"
+              :key="index"
+              :href="item.href"
+              target="_blank"
+              :class="['menu__item', { 'menu__item--is-visible': isMenuOpen }]"
+              :style="{ transitionDelay: `${index * 75}ms` }"
+            >
+              {{ item.text }}
+            </a>
+          </div>
+          <div :class="['menu__item', { 'menu__item--is-visible': isMenuOpen }]">
+            <div
+              v-if="!user"
+            >
+              <UButton
+                label="Login"
+                type="submit"
+                @click="goToLogin"
+              />
+            </div>
+
+            <div
+              v-else
+              class="w-10 h-10 cursor-pointer"
+              @click="goToProfile"
+            >
+              <UserAuthProfileAvatar
+                v-if="user"
+                :path="avatarUrl"
+                size="large"
+                :alt="`Avatar de ${name}`"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -93,16 +147,10 @@ const toggleMenu = () => {
     left: 5vw;
   }
 .card__header {
-  height: 50px;
-  padding: 15px 55px 45px;
-}
-
-.menu {
+  height: 60px;
   display: flex;
-  overflow: hidden;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu__icon {
