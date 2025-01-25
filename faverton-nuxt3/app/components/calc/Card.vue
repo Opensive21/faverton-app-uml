@@ -25,7 +25,7 @@ watch(searchTerm, () => {
 });
 
 const selectedFeatureCollection = ref<FeatureCollection | null>(null);
-const coordinates = ref<Array<number>>([])
+const coordinates = ref<Array<number>>([]);
 
 const { data: solarPotential, isLoading: solarLoading, error: solarError } = useSolarPotential(coordinates);
 
@@ -35,12 +35,7 @@ const onSelect = (item: FeatureCollection | null) => {
   emit(`update:modelValue`, item);
 };
 
-// debug
-watch(solarPotential, (newValue) => {
-  console.log("Solar potential data updated:", newValue);
-});
-
-// @ts-expect-error
+// @ts-expect-error: feature does not have a defined type
 const geoStyler = feature => ({
   opacity: feature.properties.code / 100000,
 });
@@ -78,7 +73,7 @@ const geoStyler = feature => ({
     <LMap
       style="height: 100vh"
       :zoom="5"
-      :center="[47.21322, 0.559482]"
+      :center="[50, 19]"
       :use-global-leaflet="false"
     >
       <LTileLayer
@@ -92,5 +87,17 @@ const geoStyler = feature => ({
         :options-style="geoStyler"
       />
     </LMap>
+    <v-app
+      v-if="!solarError"
+      class="absolute"
+    >
+      <div v-if="solarLoading">
+        En chargement de donner ...
+      </div>
+      <CalcNavigationDrawers
+        v-else
+        :solar-potential
+      />
+    </v-app>
   </div>
 </template>
