@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { useSolarPotential } from "~/composables/useSolarPotential";
 import type { FeatureCollection, Feature } from "~/types/address/search";
+import type { FormError, FormSubmitEvent } from '#ui/types';
 
 const searchTerm = ref<string>(``);
+const surface = ref<number>(1);
+const selectedFeatureCollection = ref<FeatureCollection | null>(null);
+const coordinates = ref<Array<number>>([]);
+const state = reactive({
+  inputValue: undefined,
+});
 
 const { data, isLoading, error, refetch } = useAddressSearch(searchTerm);
+const { data: solarPotential, isLoading: solarLoading, error: solarError } = useSolarPotential(coordinates);
 
 const items = computed(
   () =>
@@ -24,10 +32,16 @@ watch(searchTerm, () => {
   return () => clearTimeout(timeout);
 });
 
-const selectedFeatureCollection = ref<FeatureCollection | null>(null);
-const coordinates = ref<Array<number>>([]);
+// @ts-expect-error: feature does not have a defined type
+const geoStyler = feature => ({
+  opacity: feature.properties.code / 100000,
+});
 
-const { data: solarPotential, isLoading: solarLoading, error: solarError } = useSolarPotential(coordinates);
+const validate = (state: { inputValue: number | undefined }): FormError[] => {
+  const errors = [];
+  if (!state.inputValue) errors.push({ path: `number`, message: `La valeur doit être entre 1 et 100` });
+  return errors;
+};
 
 const onSelect = (item: FeatureCollection | null) => {
   selectedFeatureCollection.value = item;
@@ -35,25 +49,9 @@ const onSelect = (item: FeatureCollection | null) => {
   emit(`update:modelValue`, item);
 };
 
-// @ts-expect-error: feature does not have a defined type
-const geoStyler = feature => ({
-  opacity: feature.properties.code / 100000,
-});
-
-// surface
-const inputValue = ref<number>(1);
-const surface = ref<number>(1);
-const validate = (inputValue) => {
-  if (inputValue < 1 || inputValue > 100) {
-    return `La valeur doit être entre 1 et 100`;
-  }
-  return true;
-};
-const onSubmit = () => {
-  // Traitement après soumission
-  surface.value = inputValue.value;
-  console.log(`Valeur soumise:`, surface.value);
-};
+async function onSubmit(event: FormSubmitEvent<{ inputValue: number }>) {
+  surface.value = event.data.inputValue;
+}
 </script>
 
 <template>
@@ -85,11 +83,15 @@ const onSubmit = () => {
       </VAutocomplete>
       <UForm
         :validate="validate"
+        :state="state"
         @submit="onSubmit"
       >
-        <UFormGroup label="Entrez un nombre entre 1 et 100">
+        <UFormGroup
+          label="Entrez un nombre entre 1 et 100"
+          name="number"
+        >
           <UInput
-            v-model="inputValue"
+            v-model="state.inputValue"
             type="number"
             :min="1"
             :max="100"
