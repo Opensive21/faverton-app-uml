@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
+
+definePageMeta({
+  middleware: [`auth`],
+});
 
 const router = useRouter();
 const loading = ref(false);
@@ -23,8 +25,8 @@ onMounted(async () => {
     if (error) throw error;
 
     if (data) {
-      username.value = data.username;
-      avatar_path.value = data.avatar_url;
+      username.value = data.username ?? ``;
+      avatar_path.value = data.avatar_url ?? ``;
     }
   }
   catch (error) {
@@ -86,7 +88,7 @@ const signOut = async () => {
       @submit.prevent="updateProfile"
     >
       <div class="w-48 h-48">
-        <UserAuthProfileAvatar
+        <UserProfileAvatar
           v-model:path="avatar_path"
           @upload="updateProfile"
         />

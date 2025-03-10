@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     `@nuxtjs/leaflet`,
     `@hebilicious/vue-query-nuxt`,
     `vuetify-nuxt-module`,
+    `@pinia/nuxt`,
   ],
   devtools: { enabled: true },
   app: {
@@ -25,6 +26,9 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  leaflet: {
+    heat: true,
   },
   supabase: {
     url: process.env.SUPABASE_URL,
