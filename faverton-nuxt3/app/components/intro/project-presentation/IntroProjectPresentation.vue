@@ -1,6 +1,16 @@
 <script setup lang="ts">
 const activeCardIndex = ref<number | null>(null);
+const emit = defineEmits([`hover-change`]);
 
+function handleMouseLeave() {
+  activeCardIndex.value = null;
+  emit(`hover-change`, false);
+}
+
+const setActiveCard = (index: number) => {
+  emit(`hover-change`, true);
+  activeCardIndex.value = index;
+};
 const detailProgram = [
   {
     title: `Solutions d'Énergie Durable.`,
@@ -38,10 +48,6 @@ const detailProgram = [
     link: `/introduction/coworking-accommodation`,
   },
 ];
-
-const setActiveCard = (index: number) => {
-  activeCardIndex.value = index;
-};
 </script>
 
 <template>
@@ -49,8 +55,9 @@ const setActiveCard = (index: number) => {
     <div class="h-screen flex flex-col justify-center mt-15">
       <div class="cards-container h-80 mb-3 mt-15 w-full flex justify-center items-center">
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-150 duration-700 ease-out"
+          class="p-1"
           @mouseenter="setActiveCard(0)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
@@ -61,8 +68,9 @@ const setActiveCard = (index: number) => {
           />
         </div>
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-150 duration-700 ease-in-out"
+          class="p-1"
           @mouseenter="setActiveCard(1)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             :link="detailProgram[1]?.link"
@@ -73,8 +81,9 @@ const setActiveCard = (index: number) => {
           />
         </div>
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-150 duration-700 ease-in-out"
+          class="p-1"
           @mouseenter="setActiveCard(2)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             :link="detailProgram[2]?.link"
@@ -87,8 +96,9 @@ const setActiveCard = (index: number) => {
       </div>
       <div class="cards-container h-80 mt-3 w-full flex justify-center items-center">
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-300 duration-700 ease-in-out"
+          class="p-1"
           @mouseenter="setActiveCard(3)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             :link="detailProgram[3]?.link"
@@ -99,8 +109,9 @@ const setActiveCard = (index: number) => {
           />
         </div>
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-300 duration-700 ease-in-out"
+          class="p-1"
           @mouseenter="setActiveCard(4)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             :link="detailProgram[4]?.link"
@@ -111,8 +122,9 @@ const setActiveCard = (index: number) => {
           />
         </div>
         <div
-          class="p-1 hover:scale-[120%] hover:p-10 hover:transition delay-300 duration-700 ease-in-out"
+          class="p-1"
           @mouseenter="setActiveCard(5)"
+          @mouseleave="handleMouseLeave"
         >
           <FavertonCardHover
             :link="detailProgram[5]?.link"
@@ -125,30 +137,40 @@ const setActiveCard = (index: number) => {
       </div>
     </div>
     <div class="w-64 mt-15 mr-5">
-      <transition
-        name="fade"
-        mode="out-in"
+      <p
+        v-if="activeCardIndex !== null"
+        :key="activeCardIndex"
+        class="paragraph-animation indent-8 text-justify text-l font-bold text-base/6 duration-300 ease-"
       >
-        <p
-          v-if="activeCardIndex !== null"
-          :key="activeCardIndex"
-          class="indent-8 text-justify text-2xl font-bold leading-[1.1]"
-        >
-          {{ detailProgram[activeCardIndex]?.subtitle }}
-        </p>
-      </transition>
+        {{ detailProgram[activeCardIndex]?.subtitle }}
+      </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.paragraph-animation {
+  position: relative;
+  overflow: hidden;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.paragraph-animation::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: revealText 2s cubic-bezier(0.88, 0, 0.18, 1) forwards;
+}
+
+@keyframes revealText {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 </style>

@@ -14,11 +14,15 @@ onMounted(() => {
     isScrolled.value = window.scrollY > 50;
   });
 });
+const chang = ref(false);
 </script>
 
 <template>
   <div>
-    <div class="fixed z-index-[-1] m-0 p-0 bg-[url(~/assets/backgroundImage.jpg)] bg-cover bg-center w-full h-screen" />
+    <div
+      class="fixed z-index-[-1] m-0 p-0 bg-[url(~/assets/backgroundImage.jpg)] transition-all duration-500 ease-in-out bg-cover bg-center w-full h-screen "
+      :class="{ 'filter brightness-[0.3]': chang }"
+    />
     <div class="relative z-index-1">
       <ClientOnly>
         <AppHeader />
@@ -62,7 +66,7 @@ onMounted(() => {
           class="h-screen"
         >
           <div class="text-white">
-            <IntroProjectPresentation />
+            <IntroProjectPresentation @hover-change="(value) => chang = value" />
           </div>
         </UContainer>
       </div>
