@@ -56,6 +56,7 @@ const detailProgram = [
       <div class="cards-container h-80 mb-3 mt-15 w-full flex justify-center items-center">
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 0 }"
           @mouseenter="setActiveCard(0)"
           @mouseleave="handleMouseLeave"
         >
@@ -69,6 +70,7 @@ const detailProgram = [
         </div>
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 1 }"
           @mouseenter="setActiveCard(1)"
           @mouseleave="handleMouseLeave"
         >
@@ -82,6 +84,7 @@ const detailProgram = [
         </div>
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 2 }"
           @mouseenter="setActiveCard(2)"
           @mouseleave="handleMouseLeave"
         >
@@ -97,6 +100,7 @@ const detailProgram = [
       <div class="cards-container h-80 mt-3 w-full flex justify-center items-center">
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 3 }"
           @mouseenter="setActiveCard(3)"
           @mouseleave="handleMouseLeave"
         >
@@ -110,6 +114,7 @@ const detailProgram = [
         </div>
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 4 }"
           @mouseenter="setActiveCard(4)"
           @mouseleave="handleMouseLeave"
         >
@@ -123,6 +128,7 @@ const detailProgram = [
         </div>
         <div
           class="p-1"
+          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 5 }"
           @mouseenter="setActiveCard(5)"
           @mouseleave="handleMouseLeave"
         >

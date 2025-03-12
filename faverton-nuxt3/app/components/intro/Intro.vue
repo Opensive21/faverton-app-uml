@@ -27,36 +27,34 @@ const chang = ref(false);
       <ClientOnly>
         <AppHeader />
       </ClientOnly>
-      <UContainer class="flex text-white justify-center h-screen">
-        <div class="mt-20 flex flex-col items-center gap-14">
-          <div class="flex justify-center">
+      <div class="flex justify-end">
+        <div class="max-w-[86vw] text-white flex flex-col items-center gap-7 h-screen w-full sm:max-w-[92vw] md:max-w-[94vw] lg:max-w-[95vw]">
+          <div class="mt-20 max-w-[50pt] flex justify-center sm:max-w-24 lg:max-w-32">
             <img
-              class="w-25"
               :src="logo"
               alt="faverton"
             >
           </div>
-          <div class="flex flex-col items-center w-[58%] gap-10 text-justify">
+          <div class="flex flex-col items-center gap-5">
             <h1
-              class="text-5xl font-extrabold"
+              class="text-xl font-extrabold sm:text-4xl md:text-4xl lg:text-5xl 2xl:text-6xl"
             >
               GO GREEN & SAVE THE PLANET
             </h1>
-
-            <p class="font-bold">
+            <p class="max-w-[230pt] text-xs font-bold text-justify sm:max-w-[400pt] md:max-w-[405pt] lg:max-w-[530pt] 2xl:max-w-[660pt] sm:text-base md:text-lg lg:text-xl 2xl:text-2xl">
               Bienvenue dans le monde serein des maisons de ferme vertes, où durabilité et charme de la vie à la campagne se rencontrent. Une maison de ferme verte n'est pas simplement un logement ; c'est l'incarnation de la conscience écologique, d'une vie harmonieuse avec la nature et de l'engagement envers la préservation de l'environnement.
             </p>
           </div>
-          <div class="mt-15">
+          <div class="mt-20 sm:mt-36 md:mt-36">
             <img
               src="~/assets/scroll-down.svg"
               alt="scroll"
-              class="size-32 animate-bounce cursor-pointer"
+              class="size-24 animate-bounce cursor-pointer md:size-36"
               @click="scrollToSection"
             >
           </div>
         </div>
-      </UContainer>
+      </div>
       <div
         ref="targetSection"
         class="min-h-screen"
