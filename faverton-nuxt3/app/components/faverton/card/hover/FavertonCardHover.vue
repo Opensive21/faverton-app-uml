@@ -21,12 +21,12 @@ defineProps<{
           class="cover-image"
         >
       </div>
-      <h1 class="title text-white text-center text-xl"> {{ title }}</h1>
 
       <img
         :src="characterImage"
         class="character"
       >
+      <h1 class="title text-white text-center text-xl top-60 absolute sm:text-xs sm:top-24 md:text-xs md:top-32 lg:text-base lg:top-40 xl:text-2xl xl:top-60 2xl:text-4xl 2xl:top-96"> {{ title }}</h1>
     </div>
   </NuxtLink>
 </template>
@@ -38,7 +38,7 @@ defineProps<{
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   padding: 0 1px;
   perspective: 2500px;
 }

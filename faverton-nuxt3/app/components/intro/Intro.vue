@@ -57,16 +57,9 @@ const chang = ref(false);
       </div>
       <div
         ref="targetSection"
-        class="min-h-screen"
+        class="min-h-screen flex justify-end"
       >
-        <UContainer
-          ref="targetSection"
-          class="h-screen"
-        >
-          <div class="text-white">
-            <IntroProjectPresentation @hover-change="(value) => chang = value" />
-          </div>
-        </UContainer>
+        <IntroProjectPresentation @hover-change="(value) => chang = value" />
       </div>
     </div>
   </div>
