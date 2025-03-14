@@ -57,7 +57,7 @@ const chang = ref(false);
       </div>
       <div
         ref="targetSection"
-        class="min-h-screen flex justify-end"
+        class="min-h-screen flex justify-end xl:max-w-[100%] bg-green"
       >
         <IntroProjectPresentation @hover-change="(value) => chang = value" />
       </div>

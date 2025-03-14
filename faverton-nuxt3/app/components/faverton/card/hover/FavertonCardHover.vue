@@ -26,43 +26,40 @@ defineProps<{
         :src="characterImage"
         class="character"
       >
-      <h1 class="title text-white text-center text-xl top-60 absolute sm:text-xs sm:top-24 md:text-xs md:top-32 lg:text-base lg:top-40 xl:text-2xl xl:top-60 2xl:text-4xl 2xl:top-96"> {{ title }}</h1>
+      <div class="h-[100%] flex items-end">
+        <h1 class="title text-center font-bold xl:text-2xl xl:p-2 "> {{ title }}</h1>
+      </div>
     </div>
   </NuxtLink>
 </template>
 
 <style scoped>
 .card {
-  width: 15vw;
-  height: 15vh;
+  width: 100%;
+  height: 100%;
   position: relative;
   display: flex;
   justify-content: center;
-  /* align-items: flex-end; */
-  padding: 0 1px;
   perspective: 2500px;
 }
-
+.wrapper {
+  transition: all 0.5s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .cover-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-.wrapper {
-  transition: all 0.5s;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-}
-
 .card:hover .wrapper {
   transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
   box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
 }
-
 .wrapper::before,
 .wrapper::after {
   content: "";
@@ -73,7 +70,6 @@ defineProps<{
   position: absolute;
   left: 0;
 }
-
 .wrapper::before {
   top: 0;
   height: 100%;
@@ -84,7 +80,6 @@ defineProps<{
     rgba(12, 13, 19) 97%
   );
 }
-
 .wrapper::after {
   bottom: 0;
   opacity: 1;
@@ -95,33 +90,29 @@ defineProps<{
     rgba(12, 13, 19) 97%
   );
 }
-
 .card:hover .wrapper::before,
 .wrapper::after {
   opacity: 1;
 }
-
 .card:hover .wrapper::after {
   height: 120px;
 }
-
 .title {
   width: 100%;
   transition: transform 0.5s;
 }
 
 .card:hover .title {
-  transform: translate3d(0%, -50px, 100px);
+  transform: translate3d(0%, -60px, 100px);
 }
-
 .character {
   width: 100%;
+  height: 100%;
   opacity: 0;
   transition: all 0.5s;
   position: absolute;
   z-index: -1;
 }
-
 .card:hover .character {
   opacity: 1;
   transform: translate3d(0%, -30%, 100px);
