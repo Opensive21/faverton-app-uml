@@ -158,7 +158,7 @@ const detailProgram = [
       </div>
     </div>
 
-    <div class="bg-red mt-15 md:mr-0 lg:mr-0 xl:w-[22.37%] xl:mx-[1.31%] 2xl:mr-80">
+    <div class="bg-red mt-15 md:mr-0 lg:mr-0 xl:w-[22.37%] xl:mx-[1.31%]">
       <p
         v-if="activeCardIndex !== null"
         :key="activeCardIndex"

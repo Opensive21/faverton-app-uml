@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col w-[75%]">
+  <div class="flex flex-col w-[75%] 2xl:w-[70%]">
     <NuxtLink
       v-for="item in items"
       :key="item.link"
