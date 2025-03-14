@@ -10,7 +10,7 @@ defineProps<{
       v-for="item in items"
       :key="item.link"
       :to="item.link"
-      class="text-l font-bold text-white p-2"
+      class="text-l font-bold text-white p-2 sm:text-xs"
     >
       {{ item.title }}
     </NuxtLink>

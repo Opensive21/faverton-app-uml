@@ -27,7 +27,7 @@ defineProps<{
         class="character"
       >
       <div class="h-[100%] flex items-end">
-        <h1 class="title text-center font-bold xl:text-2xl xl:p-2 "> {{ title }}</h1>
+        <h1 class="title text-center font-bold md:text-xs lg:text-2xl xl:p-2 "> {{ title }}</h1>
       </div>
     </div>
   </NuxtLink>

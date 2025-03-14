@@ -51,12 +51,12 @@ const detailProgram = [
 </script>
 
 <template>
-  <div class="text-white bg-blue h-screen w-full flex justify-end max-w-[86vw] sm:max-w-[92vw] md:max-w-[94vw] lg:max-w-[95vw] xl:max-w-[95%]">
+  <div class="text-white h-screen w-full flex justify-end sm:max-w-[94%] xl:max-w-[95%]">
     <div
-      class="bg-grey mt-15 flex justify-between flex-wrap items-start gap-1 sm:max-w-[47vw] md:max-w-[47vw] lg:max-w-[48vw] xl:w-[50%]"
+      class="mt-15 flex justify-between flex-wrap items-start gap-1 w-[55%] sm:w-[50%]"
     >
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 0,
         }"
@@ -73,7 +73,7 @@ const detailProgram = [
       </div>
 
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 1,
         }"
@@ -90,7 +90,7 @@ const detailProgram = [
       </div>
 
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 2,
         }"
@@ -107,7 +107,7 @@ const detailProgram = [
       </div>
 
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 3,
         }"
@@ -124,7 +124,7 @@ const detailProgram = [
       </div>
 
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 4,
         }"
@@ -141,7 +141,7 @@ const detailProgram = [
       </div>
 
       <div
-        class="bg-red xl:w-[32.4%] xl:h-[48.75%]"
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
         :class="{
           grayscale: activeCardIndex !== null && activeCardIndex !== 5,
         }"
@@ -158,11 +158,11 @@ const detailProgram = [
       </div>
     </div>
 
-    <div class="bg-red mt-15 md:mr-0 lg:mr-0 xl:w-[22.37%] xl:mx-[1.31%]">
+    <div class="mt-15 w-[40%] sm:w-[25%] md:w-[22%] xl:w-[22.37%] mx-[1.31%]">
       <p
         v-if="activeCardIndex !== null"
         :key="activeCardIndex"
-        class="paragraph-animation text-justify xl:text-xl font-bold text-base/6 duration-300 ease-"
+        class="paragraph-animation text-justify font-bold text-xs duration-300 ease-on sm:text-xs md:text-xl"
       >
         {{ detailProgram[activeCardIndex]?.subtitle }}
       </p>
