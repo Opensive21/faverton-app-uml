@@ -193,7 +193,7 @@ onMounted(() => {
   width: 300px;
   transition: 1000ms all cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateX(-100%);
-  left: 60px;
+  left: 5%;
 }
 
 #menu.expanded {
@@ -205,6 +205,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   position: relative;
+  top: 5%;
 }
 
 #blob {
@@ -222,16 +223,17 @@ onMounted(() => {
 }
 
 .hamburger {
-  right: 20px;
+  right: 0;
+  margin-right: 6%;
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 30px;
   margin-top: -10px;
 }
 
 .hamburger .line {
   width: 100%;
-  height: 4px;
+  height: 5px;
   background-color: #fff;
   position: absolute;
 }
