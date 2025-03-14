@@ -27,7 +27,6 @@ const chang = ref(false);
       <ClientOnly>
         <AppHeader />
       </ClientOnly>
-      <!-- TODO: responsive start -->
       <div class="bg-blue flex justify-end w-full ">
         <div class="bg-grey xl:w-[95%] flex justify-center">
           <div class="bg-green max-w-[86vw] text-white flex flex-col items-center gap-7 h-screen w-full sm:max-w-[92vw] md:max-w-[94vw] lg:max-w-[95vw] xl:w-[55%]">
@@ -58,7 +57,6 @@ const chang = ref(false);
           </div>
         </div>
       </div>
-      <!-- TODO: responsive end -->
       <div
         ref="targetSection"
         class="min-h-screen flex justify-end xl:max-w-[100%]"
