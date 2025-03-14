@@ -5,7 +5,7 @@ const userLoaded = ref(false);
 const height = ref(0);
 const x = ref(0);
 const y = ref(0);
-const curveX = ref(10);
+const curveX = ref(0);
 const curveY = ref(0);
 const targetX = ref(0);
 const xitteration = ref(0);
@@ -97,15 +97,15 @@ const items = [
     link: `/simulator`,
   },
   {
-    title: `Solutions d'Énergie Durable`,
+    title: `Énergie Durable`,
     link: `/introduction/green-energy`,
   },
   {
-    title: `Pratiques de Conservation de l'Eau`,
+    title: `Conservation de l'Eau`,
     link: `/introduction/organic-waste-recycling`,
   },
   {
-    title: `Des Récoltes Fraîches et Durables`,
+    title: `Récoltes Fraîches et Durables`,
     link: `/introduction/sustainable-agriculture`,
   },
   {
@@ -113,11 +113,11 @@ const items = [
     link: `/introduction/education-workshops`,
   },
   {
-    title: `Restaurant and Cultural Activities`,
+    title: `Restaurant and Cultural`,
     link: `/introduction/restaurants-cultural-activities`,
   },
   {
-    title: `Travailler, Séjourner, Se Connecter`,
+    title: `Séjourner, Se Connecter`,
     link: `/introduction/coworking-accommodation`,
   },
 ];
@@ -135,10 +135,11 @@ onMounted(() => {
   <div>
     <div
       id="menu"
+      class="w-[300px] max-md:w-[130px] sm:left-[6.25%] xl:left-[5%]"
       :class="{ expanded: menuExpanded }"
     >
       <div
-        class="hamburger"
+        class="hamburger sm:w-[30px] sm:mr-[4%] md:w-[40px] md:mr-[2.5%] lg:mr-[4%] xl:mr-[6%] 2xl:mr-[10%]"
         :style="{ transform: `translateY(${curveY}px)` }"
         @mouseenter="expandMenu"
         @mouseleave="collapseMenu"
@@ -152,7 +153,7 @@ onMounted(() => {
         @mouseenter="expandMenu"
         @mouseleave="collapseMenu"
       >
-        <div class="flex flex-col">
+        <div class="flex flex-col mt-10">
           <NuxtLink
             v-if="!user"
             to="/login"
@@ -190,10 +191,8 @@ onMounted(() => {
   height: 100vh;
   position: fixed;
   background-color: #fecf572c;
-  width: 300px;
   transition: 1000ms all cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateX(-100%);
-  left: 60px;
 }
 
 #menu.expanded {
@@ -205,6 +204,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   position: relative;
+  top: 5%;
 }
 
 #blob {
@@ -222,16 +222,15 @@ onMounted(() => {
 }
 
 .hamburger {
-  right: 20px;
+  right: 0;
   position: absolute;
-  width: 20px;
-  height: 20px;
+  height: 30px;
   margin-top: -10px;
 }
 
 .hamburger .line {
   width: 100%;
-  height: 4px;
+  height: 5px;
   background-color: #fff;
   position: absolute;
 }

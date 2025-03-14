@@ -51,102 +51,118 @@ const detailProgram = [
 </script>
 
 <template>
-  <div class="flex justify-end gap-2">
-    <div class="h-screen flex flex-col justify-center mt-15">
-      <div class="cards-container h-80 mb-3 mt-15 w-full flex justify-center items-center">
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 0 }"
-          @mouseenter="setActiveCard(0)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
-            :link="detailProgram[0]?.link"
-            alt-text="Dark Rider - Mythrill"
-            :title="detailProgram[0]?.title"
-          />
-        </div>
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 1 }"
-          @mouseenter="setActiveCard(1)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            :link="detailProgram[1]?.link"
-            cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
-            alt-text="Force Mage - Mythrill"
-            :title="detailProgram[1]?.title"
-          />
-        </div>
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 2 }"
-          @mouseenter="setActiveCard(2)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            :link="detailProgram[2]?.link"
-            cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
-            alt-text="Force Mage - Mythrill"
-            :title="detailProgram[2]?.title"
-          />
-        </div>
+  <div class="text-white h-screen w-full flex justify-end sm:max-w-[94%] xl:max-w-[95%]">
+    <div
+      class="mt-15 flex justify-between flex-wrap items-start gap-1 w-[55%] sm:w-[50%]"
+    >
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 0,
+        }"
+        @mouseenter="setActiveCard(0)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
+          :link="detailProgram[0]?.link"
+          alt-text="Dark Rider - Mythrill"
+          :title="detailProgram[0]?.title"
+        />
       </div>
-      <div class="cards-container h-80 mt-3 w-full flex justify-center items-center">
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 3 }"
-          @mouseenter="setActiveCard(3)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            :link="detailProgram[3]?.link"
-            cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
-            alt-text="Dark Rider - Mythrill"
-            :title="detailProgram[3]?.title"
-          />
-        </div>
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 4 }"
-          @mouseenter="setActiveCard(4)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            :link="detailProgram[4]?.link"
-            cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
-            alt-text="Force Mage - Mythrill"
-            :title="detailProgram[4]?.title"
-          />
-        </div>
-        <div
-          class="p-1"
-          :class="{ grayscale: activeCardIndex !== null && activeCardIndex !== 5 }"
-          @mouseenter="setActiveCard(5)"
-          @mouseleave="handleMouseLeave"
-        >
-          <FavertonCardHover
-            :link="detailProgram[5]?.link"
-            cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
-            character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
-            alt-text="Force Mage - Mythrill"
-            :title="detailProgram[5]?.title"
-          />
-        </div>
+
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 1,
+        }"
+        @mouseenter="setActiveCard(1)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          :link="detailProgram[1]?.link"
+          cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+          alt-text="Force Mage - Mythrill"
+          :title="detailProgram[1]?.title"
+        />
+      </div>
+
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 2,
+        }"
+        @mouseenter="setActiveCard(2)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          :link="detailProgram[2]?.link"
+          cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+          alt-text="Force Mage - Mythrill"
+          :title="detailProgram[2]?.title"
+        />
+      </div>
+
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 3,
+        }"
+        @mouseenter="setActiveCard(3)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          :link="detailProgram[3]?.link"
+          cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
+          alt-text="Dark Rider - Mythrill"
+          :title="detailProgram[3]?.title"
+        />
+      </div>
+
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 4,
+        }"
+        @mouseenter="setActiveCard(4)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          :link="detailProgram[4]?.link"
+          cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+          alt-text="Force Mage - Mythrill"
+          :title="detailProgram[4]?.title"
+        />
+      </div>
+
+      <div
+        class="w-[48%] h-[30%] sm:h-[48%] sm:w-[32%] md:h-[48.71%] lg:w-[31.6%] lg:h-[48%] xl:w-[32.4%] xl:h-[48.75%]"
+        :class="{
+          grayscale: activeCardIndex !== null && activeCardIndex !== 5,
+        }"
+        @mouseenter="setActiveCard(5)"
+        @mouseleave="handleMouseLeave"
+      >
+        <FavertonCardHover
+          :link="detailProgram[5]?.link"
+          cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+          character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+          alt-text="Force Mage - Mythrill"
+          :title="detailProgram[5]?.title"
+        />
       </div>
     </div>
-    <div class="w-64 mt-15 mr-5">
+
+    <div class="mt-15 w-[40%] sm:w-[25%] md:w-[22%] xl:w-[22.37%] mx-[1.31%]">
       <p
         v-if="activeCardIndex !== null"
         :key="activeCardIndex"
-        class="paragraph-animation indent-8 text-justify text-l font-bold text-base/6 duration-300 ease-"
+        class="paragraph-animation text-justify font-bold text-xs duration-300 ease-on sm:text-xs md:text-xl"
       >
         {{ detailProgram[activeCardIndex]?.subtitle }}
       </p>
@@ -161,7 +177,7 @@ const detailProgram = [
 }
 
 .paragraph-animation::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -180,3 +196,101 @@ const detailProgram = [
   }
 }
 </style>
+
+<!--
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 0,
+}"
+@mouseenter="setActiveCard(0)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
+  :link="detailProgram[0]?.link"
+  alt-text="Dark Rider - Mythrill"
+  :title="detailProgram[0]?.title"
+/>
+</div>
+
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 1,
+}"
+@mouseenter="setActiveCard(1)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  :link="detailProgram[1]?.link"
+  cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+  alt-text="Force Mage - Mythrill"
+  :title="detailProgram[1]?.title"
+/>
+</div>
+
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 2,
+}"
+@mouseenter="setActiveCard(2)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  :link="detailProgram[2]?.link"
+  cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+  alt-text="Force Mage - Mythrill"
+  :title="detailProgram[2]?.title"
+/>
+</div>
+
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 3,
+}"
+@mouseenter="setActiveCard(3)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  :link="detailProgram[3]?.link"
+  cover-image="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp"
+  alt-text="Dark Rider - Mythrill"
+  :title="detailProgram[3]?.title"
+/>
+</div>
+
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 4,
+}"
+@mouseenter="setActiveCard(4)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  :link="detailProgram[4]?.link"
+  cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+  alt-text="Force Mage - Mythrill"
+  :title="detailProgram[4]?.title"
+/>
+</div>
+
+<div
+:class="{
+  grayscale: activeCardIndex !== null && activeCardIndex !== 5,
+}"
+@mouseenter="setActiveCard(5)"
+@mouseleave="handleMouseLeave"
+>
+<FavertonCardHover
+  :link="detailProgram[5]?.link"
+  cover-image="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg"
+  character-image="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp"
+  alt-text="Force Mage - Mythrill"
+  :title="detailProgram[5]?.title"
+/>
+</div>
+-->

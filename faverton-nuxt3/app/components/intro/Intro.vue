@@ -1,20 +1,35 @@
 <script setup lang="ts">
 import logo from '~/assets/favertonLogo.png';
 
+const chang = ref(false);
+const isScrolled = ref(false);
 const targetSection = ref<HTMLElement | null>(null);
+const isSmallScreen = ref(false);
+
+const mediaQuery = window.matchMedia(`(max-width: 639px)`);
+
+const updateScreenSize = (e: MediaQueryListEvent): void => {
+  isSmallScreen.value = e.matches;
+};
+
+onMounted(() => {
+  isSmallScreen.value = mediaQuery.matches;
+  mediaQuery.addEventListener(`change`, updateScreenSize);
+});
 
 function scrollToSection() {
   targetSection.value?.scrollIntoView({ behavior: `smooth` });
 }
-
-const isScrolled = ref(false);
 
 onMounted(() => {
   window.addEventListener(`scroll`, () => {
     isScrolled.value = window.scrollY > 50;
   });
 });
-const chang = ref(false);
+
+onUnmounted(() => {
+  mediaQuery.removeEventListener(`change`, updateScreenSize);
+});
 </script>
 
 <template>
@@ -25,48 +40,48 @@ const chang = ref(false);
     />
     <div class="relative z-index-1">
       <ClientOnly>
-        <AppHeader />
+        <template #default>
+          <AppHeader v-if="!isSmallScreen" />
+          <MobileMenu v-else />
+        </template>
       </ClientOnly>
-      <div class="flex justify-end">
-        <div class="max-w-[86vw] text-white flex flex-col items-center gap-7 h-screen w-full sm:max-w-[92vw] md:max-w-[94vw] lg:max-w-[95vw]">
-          <div class="mt-20 max-w-[50pt] flex justify-center sm:max-w-24 lg:max-w-32">
-            <img
-              :src="logo"
-              alt="faverton"
-            >
-          </div>
-          <div class="flex flex-col items-center gap-5">
-            <h1
-              class="text-xl font-extrabold sm:text-4xl md:text-4xl lg:text-5xl 2xl:text-6xl"
-            >
-              GO GREEN & SAVE THE PLANET
-            </h1>
-            <p class="max-w-[230pt] text-xs font-bold text-justify sm:max-w-[400pt] md:max-w-[405pt] lg:max-w-[530pt] 2xl:max-w-[660pt] sm:text-base md:text-lg lg:text-xl 2xl:text-2xl">
-              Bienvenue dans le monde serein des maisons de ferme vertes, où durabilité et charme de la vie à la campagne se rencontrent. Une maison de ferme verte n'est pas simplement un logement ; c'est l'incarnation de la conscience écologique, d'une vie harmonieuse avec la nature et de l'engagement envers la préservation de l'environnement.
-            </p>
-          </div>
-          <div class="mt-20 sm:mt-36 md:mt-36">
-            <img
-              src="~/assets/scroll-down.svg"
-              alt="scroll"
-              class="size-24 animate-bounce cursor-pointer md:size-36"
-              @click="scrollToSection"
-            >
+      <div class="flex justify-end w-full ">
+        <div class="flex justify-center lg:w-[93.75%] xl:w-[95%]">
+          <div class="text-white flex flex-col items-center gap-3 h-screen md:gap-3 w-[40%] sm:w-[47%] lg:w-[47%] xl:w-[55%]">
+            <div class="mt-20 flex justify-center w-[35%] sm:mt-[5%] sm:w-[20%] lg:w-[20%] xl:w-[20%]">
+              <FavertonLogo v-if="!isSmallScreen" />
+              <img
+                v-else
+                :src="logo"
+                alt="faverton"
+              >
+            </div>
+            <div class="flex flex-col items-center gap-6 text-balance">
+              <h1
+                class="text-nowrap font-extrabold text-xl sm:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl"
+              >
+                GO GREEN & SAVE THE PLANET
+              </h1>
+              <p class="text-justify font-medium text-sm xl:text-2xl">
+                Bienvenue dans le monde serein des maisons de ferme vertes, où durabilité et charme de la vie à la campagne se rencontrent. Une maison de ferme verte n'est pas simplement un logement ; c'est l'incarnation de la conscience écologique, d'une vie harmonieuse avec la nature et de l'engagement envers la préservation de l'environnement.
+              </p>
+            </div>
+            <div class="mt-20 max-md:mt-4">
+              <img
+                src="~/assets/scroll-down.svg"
+                alt="scroll"
+                class="size-24 animate-bounce cursor-pointer md:size-36"
+                @click="scrollToSection"
+              >
+            </div>
           </div>
         </div>
       </div>
       <div
         ref="targetSection"
-        class="min-h-screen"
+        class="min-h-screen flex justify-end xl:max-w-[100%]"
       >
-        <UContainer
-          ref="targetSection"
-          class="h-screen"
-        >
-          <div class="text-white">
-            <IntroProjectPresentation @hover-change="(value) => chang = value" />
-          </div>
-        </UContainer>
+        <IntroProjectPresentation @hover-change="(value) => chang = value" />
       </div>
     </div>
   </div>
