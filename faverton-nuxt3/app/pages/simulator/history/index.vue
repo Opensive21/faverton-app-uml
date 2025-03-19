@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import CalcSimulationHistory from '~/components/calc/simulation/history/CalcSimulationHistory.vue';
+
+definePageMeta({
+  middleware: [`auth`],
+});
+</script>
+
 <template>
-  <h1>hello</h1>
+  <div>
+    <CalcSimulationHistory />
+  </div>
 </template>
