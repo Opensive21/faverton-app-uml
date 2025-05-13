@@ -97,7 +97,7 @@ const signOut = async () => {
         class="cursor-pointer bg-green-500 text-white text-center py-2 rounded"
         for="single"
       >
-        {{ uploading ? "Uploading ..." : "Change photo" }}
+        {{ uploading ? "Uploading ..." : "Choisir photo" }}
       </label>
       <label for="email">Email</label>
       <!-- @vue-expect-error -->
@@ -111,6 +111,7 @@ const signOut = async () => {
       <input
         id="username"
         v-model="username"
+        placeholder="Nom"
         type="text"
         class="focus:outline-hidden"
       >
@@ -121,10 +122,12 @@ const signOut = async () => {
         :disabled="loading"
       >
     </form>
-    <UButton
-      label="Déconnexion"
-      class="mt-4"
-      @click="signOut"
-    />
+    <div class="flex gap-2 mt-5">
+      <UButton
+        label="Déconnexion"
+        @click="signOut"
+      />
+      <FavertonModal />
+    </div>
   </UContainer>
 </template>
