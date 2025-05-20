@@ -1,20 +1,34 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: { compatibilityVersion: 4 },
-  devtools: { enabled: true },
-  app: {
-    pageTransition: { name: `page`, mode: `out-in` },
-  },
   modules: [
     `@nuxt/eslint`,
     `@nuxt/ui`,
     `@nuxt/devtools`,
     `@nuxtjs/supabase`,
     `@tresjs/nuxt`,
+    `@nuxtjs/leaflet`,
+    `@pinia/nuxt`,
+    `@nuxtjs/cloudinary`,
   ],
+
+  devtools: { enabled: true },
+  app: {
+    pageTransition: { name: `page`, mode: `out-in` },
+  },
+
+  colorMode: {
+    preference: `light`,
+  },
+  future: { compatibilityVersion: 4 },
+  compatibilityDate: `2024-04-03`,
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
   supabase: {
-    url: process.env.SUPABASE_URL,
-    key: process.env.SUPABASE_KEY,
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
     redirectOptions: {
       login: `/login`,
       callback: `/confirm`,
@@ -26,15 +40,4 @@ export default defineNuxtConfig({
   tres: {
     glsl: true,
   },
-  eslint: {
-    config: {
-      stylistic: true,
-    },
-  },
-
-  colorMode: {
-    preference: `light`,
-  },
-
-  compatibilityDate: `2024-04-03`,
 });

@@ -1,21 +1,26 @@
+<script setup lang="ts">
+const isOpen = ref(false);
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
+};
+</script>
+
 <template>
   <div
-    class="flex flex-col w-screen items-center justify-center"
+    class="fixed z-[9000] bottom-0 md:h-[90vh] md:w-[33vw] md:top-10 md:left-3 overflow-auto"
+    :class="isOpen? 'h-[50vh]' : 'h-[100%]'"
+    style="background: linear-gradient(to bottom, rgba(149, 215, 183, 0.8), #E8FFD7);"
   >
-    <p class="w-1/4 p-5 shadow-lg shadow-green-500/60 backdrop-blur-sm">
-      <b>Wind Turbine.</b>
-      <span class="text-slate-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam fugit, doloremque accusamus
-        recusandae suscipit blanditiis, architecto eum ab accusantium dignissimos animi consequatur, pariatur
-        qui delectus odio consectetur atque aut eius!
-        Qui, error. Perspiciatis, voluptatem. Laudantium veniam deleniti temporibus
-      </span>
-      <br>
-      <NuxtLink
-        class="underline underline-offset-8 hover:decoration-sky-500"
-        to="introduction/objective"
-        text="mor information"
+    <UButton
+      class="md:hidden"
+      @click="toggleMenu"
+    >
+      <UIcon
+        :name="isOpen ? 'i-tabler-arrows-diagonal' : 'i-tabler-arrows-diagonal-minimize-2'"
+        class="text-lg"
       />
-    </p>
+      {{ isOpen ? 'Agrandir' : 'Réduire' }}
+    </UButton>
+    <slot />
   </div>
 </template>
