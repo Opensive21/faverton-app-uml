@@ -1,0 +1,111 @@
+@startuml Faverton_Class_Diagram
+' Configuration
+skinparam class {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    ArrowColor #666666
+    FontSize 12
+}
+skinparam stereotypeCBackgroundColor #FFE5B4
+skinparam stereotypeCBorderColor #FF9800
+
+title Diagramme de classes - Modèle métier Faverton
+
+' Classes principales
+class User {
+    -id: UUID
+    -email: string
+    -username: string
+    -createdAt: Date
+    -updatedAt: Date
+    --
+    +register(): Promise<User>
+    +login(): Promise<Session>
+    +updateProfile(): Promise<void>
+    +deleteAccount(soft: boolean): Promise<void>
+}
+
+class Address {
+    -id: UUID
+    -label: string
+    -street: string
+    -postalCode: string
+    -city: string
+    -latitude: number
+    -longitude: number
+    --
+    +geocode(): Promise<Coordinates>
+    +formatDisplay(): string
+}
+
+class Simulation {
+    -simulationId: UUID
+    -userId: UUID
+    -surface: number
+    -simulationDate: Date
+    -history: boolean
+    -solarEnergyId: UUID
+    -panelId: UUID
+    --
+    +calculate(): Promise<SimulationResult>
+    +save(): Promise<void>
+    +compareWith(other: Simulation): Comparison
+    +export(format: string): File
+}
+
+class Panel <<entity>> {
+    -panelId: UUID
+    -model: string
+    -efficiency: number
+    -power: number
+    -company: string
+    -technology: PanelType
+    --
+    +getYearlyProduction(area: number): number
+    +getEfficiencyRate(): number
+}
+
+class SolarEnergy <<entity>> {
+    -solarEnergyId: UUID
+    -postalCode: string
+    -city: string
+    -yearlyEnergy: number
+    -monthlyData: MonthlyProduction[]
+    --
+    +fetchFromAPI(coords: Coordinates): Promise<void>
+    +getMonthlyAverage(): number
+    +getSeasonalVariation(): object
+}
+
+class MonthlyProduction {
+    -month: number
+    -energy: number
+    -radiation: number
+    --
+    +calculateRevenue(price: number): number
+}
+
+class SimulationResult {
+    -yearlyProduction: number
+    -yearlyRevenue: number
+    -monthlyBreakdown: MonthlyData[]
+    -roiYears: number
+    --
+    +generateChartData(): ChartData
+    +calculateROI(): number
+}
+
+enum PanelType {
+    MONOCRYSTALLINE
+    POLYCRYSTALLINE
+    THIN_FILM
+}
+
+' Relations
+User "1" -- "0..*" Simulation : owns >
+Simulation "0..*" -- "1" Panel : uses >
+Simulation "0..*" -- "1" SolarEnergy : based on >
+Simulation "1" -- "1" Address : located at >
+Simulation "1" -- "1" SimulationResult : produces >
+SolarEnergy "1" *-- "12" MonthlyProduction : contains >
+Panel -- PanelType
