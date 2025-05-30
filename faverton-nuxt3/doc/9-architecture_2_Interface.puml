@@ -1,0 +1,72 @@
+@startuml Architecture_Faverton_2_Interface
+
+skinparam dpi 300
+skinparam componentFontSize 11
+skinparam fontSize 10
+skinparam packageFontSize 13
+skinparam backgroundColor white
+skinparam minClassWidth 180
+
+title <b>Architecture Faverton - Interface Utilisateur</b>\n<size:10>Détail des composants de présentation</size>
+
+package "Couche Présentation" #C8E6C9 {
+    
+    component "Framework Nuxt 3" as Nuxt #D4EDDA {
+        component "Pages" as Pages
+        component "Layouts" as Layouts
+        component "Middleware Auth" as Auth
+    }
+    
+    component "Composants Vue 3" as Vue #D4EDDA {
+        component "SimulationParameters" as SimParams
+        component "SimulationResult" as SimResult
+        component "UserProfile" as Profile
+    }
+    
+    component "Bibliothèques UI" as Libs #D4EDDA {
+        component "Leaflet (Carte)" as Leaflet
+        component "Chart.js (Graphiques)" as Charts
+        component "NuxtUI (Design)" as NuxtUI
+    }
+    
+    component "État Global (Pinia)" as Pinia #D4EDDA {
+        component "addressStore" as AddrStore
+        component "mapStore" as MapStore
+    }
+}
+
+' Interfaces de communication
+interface "IWebAPI" as IWebAPI
+interface "ISimulation" as ISimulation
+
+' Relations internes avec cardinalités
+Pages "1" ..> "1..*" Vue : utilise
+Vue "1" ..> "1..*" Libs : intègre
+Vue "1" ..> "1" Pinia : synchronise état
+Auth "1" ..> "0..*" Pages : protège routes
+
+' Cardinalités métier spécifiques
+SimParams "1" --> "1" MapStore : "met à jour\nsurface dessinée"
+SimParams "1" --> "1" AddrStore : "stocke\nlocalisation"
+SimResult "1" --> "0..*" Charts : "affiche\nrésultats"
+
+' Connexion vers Core Service
+Nuxt "1" --> "1" IWebAPI : expose
+SimParams "1" --> "0..*" ISimulation : "soumet\ncalculs"
+
+' Note sur le flux utilisateur
+note right of Vue
+  <b>Parcours utilisateur type :</b>
+  1. Recherche d'adresse
+  2. Dessin de la surface
+  3. Sélection du panneau
+  4. Lancement du calcul
+  5. Affichage des résultats
+  ----
+  Toutes les interactions sont
+  réactives grâce à Vue 3
+end note
+
+note bottom : Vue : 2/5 - Composants d'interface
+
+@enduml
