@@ -1,0 +1,130 @@
+@startuml Faverton_MCD_Merise
+' Configuration style Merise
+skinparam class {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    FontSize 11
+}
+skinparam object {
+    BackgroundColor #FFE5B4
+    BorderColor #FF9800
+}
+
+title Modèle Conceptuel de Données (MCD) - Faverton
+
+' Entités
+class USER {
+    <b>id</b>
+    email
+    username
+    created_at
+    updated_at
+}
+
+class SIMULATION {
+    <b>simulation_id</b>
+    surface
+    simulation_date
+    history
+}
+
+class PANEL {
+    <b>panel_id</b>
+    model
+    efficiency
+    power
+    company
+}
+
+class PANEL_TYPE {
+    <b>panel_type_id</b>
+    label
+    description
+}
+
+class SOLAR_ENERGY {
+    <b>solar_energy_id</b>
+    postal_code
+    city
+    yearly_energy
+    month_1_energy
+    month_2_energy
+    month_3_energy
+    month_4_energy
+    month_5_energy
+    month_6_energy
+    month_7_energy
+    month_8_energy
+    month_9_energy
+    month_10_energy
+    month_11_energy
+    month_12_energy
+}
+
+class ADDRESS {
+    <b>address_id</b>
+    label
+    latitude
+    longitude
+    postal_code
+    city
+}
+
+' Associations (style Merise)
+object POSSEDE {
+    1,1 - 0,n
+}
+
+object UTILISE {
+    0,n - 1,1
+}
+
+object BASEE_SUR {
+    0,n - 1,1
+}
+
+object LOCALISE {
+    1,1 - 1,1
+}
+
+object APPARTIENT {
+    1,n - 1,1
+}
+
+' Relations
+USER "1,1" -- "0,n" POSSEDE
+POSSEDE "0,n" -- "1,1" SIMULATION
+
+SIMULATION "0,n" -- "1,1" UTILISE
+UTILISE "1,1" -- "0,n" PANEL
+
+SIMULATION "0,n" -- "1,1" BASEE_SUR
+BASEE_SUR "1,1" -- "0,n" SOLAR_ENERGY
+
+SIMULATION "1,1" -- "1,1" LOCALISE
+LOCALISE "1,1" -- "1,1" ADDRESS
+
+PANEL "1,n" -- "1,1" APPARTIENT
+APPARTIENT "1,1" -- "1,n" PANEL_TYPE
+
+' Notes avec contraintes
+note right of USER
+  Contraintes:
+  - email unique
+  - username unique
+  - soft delete possible
+end note
+
+note left of SIMULATION
+  Contraintes:
+  - surface > 0 et ≤ 10000
+  - history = false par défaut
+end note
+
+note bottom of SOLAR_ENERGY
+  Données cachées pour
+  optimiser les performances
+  (éviter appels API répétés)
+end note
+
+@enduml
