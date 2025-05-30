@@ -1,0 +1,71 @@
+@startuml Architecture_Faverton_1_Navigation
+
+' Configuration A4 portrait
+skinparam dpi 300
+skinparam componentFontSize 12
+skinparam fontSize 11
+skinparam packageFontSize 14
+skinparam backgroundColor white
+skinparam minClassWidth 200
+skinparam nodesep 50
+skinparam ranksep 80
+
+' Configuration des couleurs directement
+skinparam package {
+    BackgroundColor #F5F5F5
+    BorderColor #666666
+}
+
+title <b>Architecture Faverton - Vue d'ensemble</b>\n<size:10>Navigation entre les composants détaillés</size>
+
+' Organisation verticale
+top to bottom direction
+
+' Vue simplifiée avec références
+package "Interface Utilisateur\n(→ Diagramme 2)" #C8E6C9 {
+    component "Application Web\nNuxt 3 / Vue 3" as WebApp
+}
+
+package "Services Métier\n(→ Diagramme 3)" #FFF3E0 {
+    component "Core Service\nNitro / HMR" as Core
+}
+
+package "Données\n(→ Diagramme 4)" #BBDEFB {
+    database "PostgreSQL\nSupabase" as DB
+}
+
+package "Services Externes\n(→ Diagramme 5)" #E1BEE7 {
+    component "APIs Tierces" as APIs
+}
+
+' Relations principales
+WebApp ==> Core : "Requêtes utilisateur\n[1 → 0..*]"
+Core ==> DB : "Persistance\n[1 → 0..*]"
+Core <==> APIs : "Données externes\n[1 → 1]"
+
+' Guide de lecture
+note right of WebApp
+  <b>Guide de lecture :</b>
+  ====
+  Diagramme 2 : Composants d'interface
+  et interactions utilisateur
+  ----
+  Diagramme 3 : Architecture interne
+  des services métier
+  ----
+  Diagramme 4 : Modèle de données
+  et relations
+  ----
+  Diagramme 5 : Intégrations avec
+  les services externes
+end note
+
+' Métadonnées
+note bottom
+  Projet : Faverton - Simulateur de potentiel solaire
+  Type : Diagramme de composants UML
+  Vue : 1/5 - Navigation
+  RNCP : Concepteur Développeur d'Applications
+end note
+
+@enduml
