@@ -1,0 +1,86 @@
+@startuml Architecture_Faverton_5_External_Compact
+
+' Configuration compacte A4
+skinparam dpi 300
+skinparam componentFontSize 10
+skinparam fontSize 9
+skinparam packageFontSize 11
+skinparam backgroundColor white
+skinparam minClassWidth 140
+skinparam nodesep 30
+skinparam ranksep 40
+
+' Styles
+skinparam package {
+    BackgroundColor #E1BEE7
+    BorderColor #7B1FA2
+}
+
+skinparam component {
+    BackgroundColor #F3E5F5
+    BorderColor #9C27B0
+}
+
+title <b>Architecture Faverton - Services Externes</b>\n<size:10>APIs tierces et intégrations</size>
+
+top to bottom direction
+
+' APIs Externes
+package "APIs Publiques" {
+    component "API Adresse\ndata.gouv.fr" as GeoAPI
+    component "API PVGIS\nJRC Europa" as JrcAPI
+}
+
+' Proxy Nuxt
+package "Proxy Serveur" #FFF3E0 {
+    component "/api/address" as ProxyGeo
+    component "/api/solar-potential/jrc" as ProxyJrc
+}
+
+' Services Supabase
+package "Services Supabase" {
+    component "Auth Service" as SupaAuth
+    component "File Storage" as SupaStorage
+    component "Realtime DB" as SupaRT
+}
+
+' Interfaces depuis Core
+package "Interfaces Core" #FFECB3 {
+    interface "IGeoService" as IGeo
+    interface "ISolarData" as ISolar
+    interface "IAuth" as IAuth
+}
+
+' Relations avec cardinalités
+IGeo "1" -down-> "1" ProxyGeo : utilise
+ProxyGeo "1" -down-> "1" GeoAPI : "GET /search"
+
+ISolar "1" -down-> "1" ProxyJrc : appelle
+ProxyJrc "1" -down-> "1" JrcAPI : "GET /PVcalc"
+
+IAuth "1" -down-> "1" SupaAuth : authentifie
+SupaAuth "1" -left-> "1" SupaStorage : "stocke\navatars"
+
+' Notes explicatives
+note right of GeoAPI
+  <b>Géocodage :</b>
+  Limite : 5 résultats
+  Format : GeoJSON
+end note
+
+note right of JrcAPI
+  <b>Données solaires :</b>
+  Base : PVGIS-SARAH3
+  Résolution : Mensuelle
+end note
+
+note left of ProxyGeo
+  <b>Avantages proxy :</b>
+  • Évite CORS
+  • Cache résultats
+  • Masque clés API
+end note
+
+note bottom : Vue : 5/5 - Intégrations externes
+
+@enduml
