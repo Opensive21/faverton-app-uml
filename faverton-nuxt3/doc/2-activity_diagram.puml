@@ -1,0 +1,83 @@
+@startuml Faverton_Activity_Diagram
+' Configuration
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #666666
+    FontSize 12
+}
+skinparam activityDiamond {
+    BackgroundColor #FFE5B4
+    BorderColor #FF9800
+}
+
+title Diagramme d'activité - Parcours de simulation Faverton
+
+start
+
+:Accéder à l'application;
+:Consulter la page d'accueil;
+
+:Rechercher une adresse;
+note right: API Géocodage
+
+if (Adresse trouvée ?) then (oui)
+    :Afficher position sur carte;
+else (non)
+    :Afficher message d'erreur;
+    :Proposer saisie manuelle;
+endif
+
+:Dessiner zone sur carte;
+note right: Outil Leaflet Draw
+
+:Calculer superficie;
+
+if (Surface valide ?) then (oui)
+    :Afficher surface en m²;
+else (non)
+    :Afficher alerte;
+    :Demander nouveau dessin;
+    stop
+endif
+
+:Sélectionner type de panneau;
+:Configurer paramètres techniques;
+
+:Lancer simulation;
+note left: API PVGIS
+
+fork
+    :Calculer production mensuelle;
+fork again
+    :Calculer rendement financier;
+fork again
+    :Estimer retour sur investissement;
+end fork
+
+:Afficher résultats;
+:Présenter graphiques;
+
+if (Utilisateur connecté ?) then (oui)
+    :Proposer sauvegarde;
+    
+    if (Sauvegarder ?) then (oui)
+        :Enregistrer en base;
+        :Afficher confirmation;
+        :Accéder à l'historique;
+    else (non)
+        :Continuer navigation;
+    endif
+else (non)
+    :Proposer inscription;
+    
+    if (S'inscrire ?) then (oui)
+        :Créer compte;
+        :Sauvegarder simulation;
+    else (non)
+        :Terminer sans sauvegarde;
+    endif
+endif
+
+stop
+
+@enduml
