@@ -1,80 +1,71 @@
-@startuml Architecture_Faverton_Vue_Ensemble
+@startuml Architecture_Faverton_1_Navigation
 
-' Configuration optimisée pour impression A4
+' Configuration A4 portrait
 skinparam dpi 300
-skinparam componentFontSize 14
-skinparam interfaceFontSize 12
-skinparam fontSize 13
-skinparam packageFontSize 16
-skinparam packageFontStyle bold
-skinparam minClassWidth 220
-skinparam nodesep 60
-skinparam ranksep 100
-skinparam padding 5
-skinparam roundcorner 20
-skinparam shadowing true
+skinparam componentFontSize 12
+skinparam fontSize 11
+skinparam packageFontSize 14
 skinparam backgroundColor white
+skinparam minClassWidth 200
+skinparam nodesep 50
+skinparam ranksep 80
 
-' Définition des couleurs harmonieuses
-!define INTERFACE_COLOR #B8E6B8
-!define CORE_COLOR #FFE5B4
-!define DATABASE_COLOR #B4D4F1
-!define EXTERNAL_COLOR #E6B8E6
-
+' Configuration des couleurs directement
 skinparam package {
-    BackgroundColor<<interface>> INTERFACE_COLOR
-    BorderColor<<interface>> #4CAF50
-    BackgroundColor<<core>> CORE_COLOR
-    BorderColor<<core>> #FF9800
-    BackgroundColor<<database>> DATABASE_COLOR
-    BorderColor<<database>> #2196F3
-    BackgroundColor<<external>> EXTERNAL_COLOR
-    BorderColor<<external>> #9C27B0
+    BackgroundColor #F5F5F5
+    BorderColor #666666
 }
 
-' Organisation verticale pour format A4 portrait
+title <b>Architecture Faverton - Vue d'ensemble</b>\n<size:10>Navigation entre les composants détaillés</size>
+
+' Organisation verticale
 top to bottom direction
 
-' Couche Interface
-package "Interface Utilisateur" <<interface>> {
-    component "Application Web\nNuxt 3 / Vue 3" as WebApp <<interface>>
-    component "Cartographie Interactive\nLeaflet" as Map <<interface>>
+' Vue simplifiée avec références
+package "Interface Utilisateur\n(→ Diagramme 2)" #C8E6C9 {
+    component "Application Web\nNuxt 3 / Vue 3" as WebApp
 }
 
-' Core Service
-package "Services Métier" <<core>> {
-    component "Simulateur Solaire" as Simulator <<core>>
-    component "Calculateur de Rendement" as Calculator <<core>>
-    component "Gestion des Utilisateurs" as UserMgmt <<core>>
+package "Services Métier\n(→ Diagramme 3)" #FFF3E0 {
+    component "Core Service\nNitro / HMR" as Core
 }
 
-' Base de données
-package "Persistance des Données" <<database>> {
-    database "PostgreSQL\n(via Supabase)" as DB <<database>> {
-        component "Utilisateurs & Historique" as UserData
-        component "Données Techniques" as TechData
-    }
+package "Données\n(→ Diagramme 4)" #BBDEFB {
+    database "PostgreSQL\nSupabase" as DB
 }
 
-' Services externes
-package "APIs Externes" <<external>> {
-    component "Géolocalisation\n(API Adresse)" as GeoAPI <<external>>
-    component "Données Solaires\n(JRC Europa)" as SolarAPI <<external>>
+package "Services Externes\n(→ Diagramme 5)" #E1BEE7 {
+    component "APIs Tierces" as APIs
 }
 
-' Relations principales avec cardinalités
-WebApp --> Simulator : "1    →    0..*\ndemande simulation"
-WebApp --> UserMgmt : "1    →    1\nauthentification"
-Map --> Simulator : "1    →    1\nfournit coordonnées"
+' Relations principales
+WebApp ==> Core : "Requêtes utilisateur\n[1 → 0..*]"
+Core ==> DB : "Persistance\n[1 → 0..*]"
+Core <==> APIs : "Données externes\n[1 → 1]"
 
-Simulator --> Calculator : "1    →    1\ndélègue calcul"
-Simulator --> UserData : "1    →    0..*\nsauvegarde"
-Calculator --> TechData : "1    →    1..*\nconsulte panneaux"
+' Guide de lecture
+note right of WebApp
+  <b>Guide de lecture :</b>
+  ====
+  Diagramme 2 : Composants d'interface
+  et interactions utilisateur
+  ----
+  Diagramme 3 : Architecture interne
+  des services métier
+  ----
+  Diagramme 4 : Modèle de données
+  et relations
+  ----
+  Diagramme 5 : Intégrations avec
+  les services externes
+end note
 
-Simulator --> GeoAPI : "1    →    1\nlocalise adresse"
-Calculator --> SolarAPI : "1    →    1\nrécupère ensoleillement"
-
-' Note explicative sur Supabase
-note bottom of DB : Supabase fournit l'authentification intégrée\net l'accès temps réel aux données
+' Métadonnées
+note bottom
+  Projet : Faverton - Simulateur de potentiel solaire
+  Type : Diagramme de composants UML
+  Vue : 1/5 - Navigation
+  RNCP : Concepteur Développeur d'Applications
+end note
 
 @enduml
