@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const { shouldSoftDelete = true } = await readBody(event);
 
-    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseUrl = process.env.NUXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
