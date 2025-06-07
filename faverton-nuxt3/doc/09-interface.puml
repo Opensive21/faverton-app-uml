@@ -1,0 +1,78 @@
+@startuml Architecture_Faverton_2_Interface
+
+' Configuration optimisée pour éviter la coupure
+skinparam dpi 300
+skinparam componentFontSize 10
+skinparam fontSize 9
+skinparam packageFontSize 12
+skinparam backgroundColor white
+skinparam minClassWidth 40
+skinparam nodesep 50
+skinparam ranksep 80
+
+title <b>Architecture Faverton - Interface Utilisateur</b>\n<size:9>Détail des composants de présentation</size>
+
+' Organisation verticale pour optimiser l'espace
+top to bottom direction
+
+package "Couche Présentation" #C8E6C9 {
+    
+    component "Framework Nuxt 3" as Nuxt #D4EDDA {
+        component "Pages" as Pages
+        component "Layouts" as Layouts
+        component "Middleware\nAuth" as Auth
+    }
+    
+    component "Composants Vue 3" as Vue #D4EDDA {
+        component "Simulation\nParameters" as SimParams
+        component "Simulation\nResult" as SimResult
+        component "User\nProfile" as Profile
+    }
+    
+    component "Bibliothèques UI" as Libs #D4EDDA {
+        component "Leaflet\n(Carte)" as Leaflet
+        component "Chart.js\n(Graphiques)" as Charts
+        component "NuxtUI\n(Design)" as NuxtUI
+    }
+    
+    component "État Global\n(Pinia)" as Pinia #D4EDDA {
+        component "addressStore" as AddrStore
+        component "mapStore" as MapStore
+    }
+}
+
+' Interfaces de communication
+interface "IWebAPI" as IWebAPI
+interface "ISimulation" as ISimulation
+
+' Relations internes avec cardinalités
+Pages "1" ..> "1..*" Vue : utilise
+Vue "1" ..> "1..*" Libs : intègre
+Vue "1" ..> "1" Pinia : "synchronise\nétat"
+Auth "1" ..> "0..*" Pages : "protège\nroutes"
+
+' Cardinalités métier spécifiques
+SimParams "1" --> "1" MapStore : "met à jour\nsurface"
+SimParams "1" --> "1" AddrStore : "stocke\nlocalisation"
+SimResult "1" --> "0..*" Charts : "affiche\nrésultats"
+
+' Connexion vers Core Service
+Nuxt "1" --> "1" IWebAPI : expose
+SimParams "1" --> "0..*" ISimulation : "soumet\ncalculs"
+
+' Note compacte sur le flux utilisateur
+note bottom of Vue
+  <b>Flux utilisateur :</b>
+  1. Recherche adresse
+  2. Dessin surface
+  3. Choix panneau
+  4. Calcul
+  5. Résultats
+  ----
+  Interactions réactives
+  avec Vue 3
+end note
+
+note bottom : Vue : 2/5 - Composants d'interface
+
+@enduml

@@ -1,0 +1,84 @@
+@startuml Faverton_Activity_Diagram
+' Configuration
+skinparam activity {
+    BackgroundColor #F5F5F5
+    BorderColor #666666
+    FontSize 12
+}
+skinparam activityDiamond {
+    BackgroundColor #FFE5B4
+    BorderColor #FF9800
+}
+
+title Diagramme d'activité - Parcours de simulation Faverton
+
+start
+
+:Accéder à l'application;
+:Consulter la page d'accueil;
+
+:Choisir l'option simulateur\ndans le menu;
+
+:Rechercher une adresse;
+note right: API Géocodage
+
+if (Adresse trouvée ?) then (oui)
+    :Afficher position sur carte;
+else (non)
+    :Rechercher une adresse;
+endif
+
+:Définir la surface;
+note right: Deux options possibles :\n- Saisie directe de la valeur\n- Dessin sur la carte
+
+if (Méthode choisie ?) then (Dessin)
+    :Dessiner zone sur carte;
+    note right: Outil Leaflet Draw
+    :Calculer superficie automatiquement;
+    :Remplir le champ surface;
+else (Saisie directe)
+    :Saisir la surface en m²;
+    note left: Seules les valeurs\nnumériques acceptées
+endif
+
+:Sélectionner type de panneau;
+
+:Lancer simulation;
+note left: Récupération des données\ntechniques en BDD\net API PVGIS
+
+fork
+    :Calculer production mensuelle;
+fork again
+    :Calculer production annuelle totale;
+fork again
+    :Calculer rendement financier;
+end fork
+
+:Afficher résultats;
+:Présenter graphiques mensuels;
+:Afficher production totale annuelle;
+
+if (Utilisateur connecté ?) then (oui)
+    :Proposer sauvegarde;
+    
+    if (Sauvegarder ?) then (oui)
+        :Enregistrer en base;
+        :Afficher confirmation;
+        :Accéder à l'historique;
+    else (non)
+        :Continuer navigation;
+    endif
+else (non)
+    :Proposer inscription;
+    
+    if (S'inscrire ?) then (oui)
+        :Créer compte;
+        :Sauvegarder simulation;
+    else (non)
+        :Terminer sans sauvegarde;
+    endif
+endif
+
+stop
+
+@enduml

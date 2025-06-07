@@ -1,0 +1,81 @@
+@startuml Faverton_Sequence_Simulation
+' Configuration
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 80
+skinparam sequenceParticipant underline
+
+title Diagramme de séquence - Simulation solaire
+
+' Participants
+actor "Utilisateur" as User
+participant "Interface\nVue 3" as UI #B8E6B8
+participant "API\nNuxt/Nitro" as API #FFE5B4
+participant "Service\nGéocodage" as Geo #E6B8E6
+participant "Service\nPVGIS" as PVGIS #E6B8E6
+database "PostgreSQL\nSupabase" as DB #B4D4F1
+
+' Séquence principale
+User -> UI : Saisit adresse
+activate UI
+UI -> API : POST /api/address
+activate API
+API -> Geo : GET /search?q={address}
+activate Geo
+Geo --> API : Coordonnées GPS
+deactivate Geo
+API --> UI : {lat, lon, city}
+deactivate API
+UI --> User : Affiche position\nsur carte
+deactivate UI
+
+User -> UI : Dessine zone
+activate UI
+UI -> UI : Calcule superficie\n(L.GeometryUtil)
+UI --> User : Affiche surface (m²)
+deactivate UI
+
+User -> UI : Configure panneaux
+activate UI
+UI --> User : Affiche options
+deactivate UI
+
+User -> UI : Lance simulation
+activate UI
+UI -> API : POST /api/simulation
+activate API
+
+API -> PVGIS : GET /PVcalc
+activate PVGIS
+note right of PVGIS : Paramètres:\n- Coordonnées\n- Inclinaison\n- Technologie
+PVGIS --> API : Données mensuelles\nd'ensoleillement
+deactivate PVGIS
+
+API -> API : Calcule production\nCalcule rendement €
+API -> DB : INSERT simulation
+activate DB
+DB --> API : simulation_id
+deactivate DB
+
+API --> UI : Résultats complets
+deactivate API
+UI --> User : Affiche graphiques\net revenus
+deactivate UI
+
+alt Utilisateur authentifié
+    User -> UI : Sauvegarde simulation
+    activate UI
+    UI -> API : PUT /api/simulation/{id}
+    activate API
+    API -> DB : UPDATE history=true
+    activate DB
+    DB --> API : OK
+    deactivate DB
+    API --> UI : Confirmation
+    deactivate API
+    UI --> User : "Simulation sauvegardée"
+    deactivate UI
+end
+
+@enduml
+

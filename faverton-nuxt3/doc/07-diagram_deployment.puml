@@ -1,0 +1,94 @@
+@startuml Faverton_Deployment_Diagram
+' Configuration
+skinparam node {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+}
+skinparam component {
+    BackgroundColor White
+    BorderColor #666666
+}
+skinparam database {
+    BackgroundColor #B4D4F1
+    BorderColor #2196F3
+}
+
+title Diagramme de déploiement - Infrastructure Faverton
+
+' Nœuds client
+node "Navigateur Client" as Browser {
+    component "Application Vue 3" as VueApp
+    component "Leaflet Maps" as Maps
+    component "Chart.js" as Charts
+}
+
+' CDN
+cloud "Cloudinary CDN" as CDN {
+    component "Images optimisées" as Images
+}
+
+' Serveur d'application
+node "Vercel Edge Network" as Vercel {
+    component "Nuxt 3 SSR" as NuxtSSR
+    component "Nitro Server" as Nitro
+    component "API Routes" as APIRoutes
+    artifact "Docker Container" as Docker
+}
+
+' Base de données
+node "Supabase Cloud" as SupabaseNode {
+    database "PostgreSQL" as PG {
+        component "Tables métier" as Tables
+        component "Auth système" as Auth
+        component "Row Level Security" as RLS
+    }
+    component "Realtime Engine" as Realtime
+    component "Storage" as Storage
+}
+
+' APIs externes
+cloud "Services Externes" as External {
+    component "API Adresse\n(Géocodage)" as GeoAPI
+    component "API PVGIS\n(Données solaires)" as PVGIS
+}
+
+' GitHub
+node "GitHub" as GitHub {
+    component "Repository" as Repo
+    component "Actions CI/CD" as Actions
+    component "GitGuardian" as Guardian
+}
+
+' Relations
+Browser --> Vercel : "HTTPS"
+Browser --> CDN : "Assets"
+VueApp ..> Maps : "utilise"
+VueApp ..> Charts : "utilise"
+
+Vercel --> SupabaseNode : "PostgreSQL\nprotocol"
+APIRoutes --> External : "HTTPS"
+Nitro ..> APIRoutes : "route"
+NuxtSSR ..> Nitro : "process"
+
+GitHub --> Vercel : "Deploy\n(webhook)"
+Actions ..> Guardian : "security\ncheck"
+
+note right of Vercel
+  Déploiement automatique
+  sur push dans main
+  Preview par branche
+end note
+
+note left of SupabaseNode
+  - Backups automatiques
+  - Haute disponibilité
+  - Région: EU
+end note
+
+note bottom of External
+  APIs cachées via
+  proxy Nuxt pour
+  éviter CORS
+end note
+
+@enduml

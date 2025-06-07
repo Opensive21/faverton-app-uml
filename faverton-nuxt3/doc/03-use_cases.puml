@@ -1,0 +1,72 @@
+@startuml Faverton_Use_Cases
+' Configuration pour une meilleure lisibilité
+skinparam packageStyle rectangle
+skinparam usecase {
+    BackgroundColor<< Main >> #FFE5B4
+    BorderColor<< Main >> #FF9800
+    BackgroundColor #F5F5F5
+    BorderColor #999999
+}
+skinparam actor {
+    BackgroundColor #E6F3FF
+    BorderColor #2196F3
+}
+
+title Diagramme de cas d'utilisation - Faverton
+
+' Acteurs
+actor "Utilisateur\nNon authentifié" as Guest
+actor "Utilisateur\nAuthentifié" as User
+
+' Cas d'utilisation principaux
+package "Système Faverton" {
+    usecase "Rechercher une\nlocalisation" as UC1 << Main >>
+    usecase "Dessiner une zone\nsur la carte" as UC2 << Main >>
+    usecase "Configurer les\nparamètres techniques" as UC3
+    usecase "Lancer la\nsimulation" as UC4 << Main >>
+    usecase "Visualiser les\nrésultats" as UC5
+    usecase "S'authentifier" as UC6
+    usecase "Sauvegarder la\nsimulation" as UC7
+    usecase "Consulter\nl'historique" as UC8
+    usecase "Comparer des\nsimulations" as UC9
+    usecase "Exporter les\nrésultats" as UC10
+}
+
+' Relations Guest
+Guest --> UC1
+Guest --> UC2
+Guest --> UC3
+Guest --> UC4
+Guest --> UC5
+Guest --> UC6
+
+' Relations User (hérite de Guest)
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+
+' Héritage
+User --|> Guest
+
+' Relations include/extend
+UC4 ..> UC2 : <<include>>
+UC4 ..> UC3 : <<include>>
+UC5 ..> UC4 : <<include>>
+UC7 ..> UC6 : <<include>>
+UC8 ..> UC6 : <<include>>
+UC9 ..> UC8 : <<extend>>
+UC10 ..> UC5 : <<extend>>
+
+note right of UC4
+  La simulation nécessite
+  une zone dessinée et
+  des paramètres configurés
+end note
+
+note bottom of UC7
+  Fonctionnalités réservées
+  aux utilisateurs authentifiés
+end note
+
+@enduml

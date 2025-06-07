@@ -1,0 +1,95 @@
+@startuml Architecture_Faverton_4_Database
+
+skinparam dpi 300
+skinparam componentFontSize 11
+skinparam fontSize 10
+skinparam packageFontSize 13
+skinparam backgroundColor white
+skinparam minClassWidth 160
+
+title <b>Architecture Faverton - Modèle de Données</b>\n<size:10>Structure PostgreSQL via Supabase</size>
+
+package "Base de Données PostgreSQL" #BBDEFB {
+    
+    ' Tables utilisateurs
+    package "Domaine Utilisateur" #D1E7F5 {
+        entity "profiles" as profiles {
+            * <u>id : uuid</u>
+            --
+            username : varchar
+            avatar_url : varchar
+            updated_at : timestamp
+        }
+        
+        entity "auth.users" as auth {
+            * <u>id : uuid</u>
+            --
+            email : varchar
+            encrypted_password
+            created_at : timestamp
+        }
+    }
+    
+    ' Tables métier
+    package "Domaine Simulation" #D1E7F5 {
+        entity "simulation" as simulation {
+            * <u>simulation_id : uuid</u>
+            --
+            user_id : uuid <<FK>>
+            panel_id : uuid <<FK>>
+            solar_energy_id : uuid <<FK>>
+            surface : numeric
+            history : boolean
+            simulation_date : timestamp
+        }
+        
+        entity "solar_energy" as solar {
+            * <u>solar_energy_id : uuid</u>
+            --
+            postal_code : varchar
+            city : varchar
+            yearly_energy : numeric
+            month_1..12_energy : numeric
+        }
+    }
+    
+    package "Domaine Technique" #D1E7F5 {
+        entity "panel" as panel {
+            * <u>panel_id : uuid</u>
+            --
+            panel_type_id : uuid <<FK>>
+            model : varchar
+            efficiency : numeric
+            company : varchar
+        }
+        
+        entity "panel_type" as ptype {
+            * <u>panel_type_id : uuid</u>
+            --
+            label : varchar
+        }
+    }
+}
+
+' Relations avec cardinalités précises
+profiles "1" -- "1" auth : "identifié par"
+profiles "1" -- "0..*" simulation : possède
+simulation "0..*" -- "1" panel : utilise
+simulation "0..*" -- "1" solar : "basée sur"
+panel "1..*" -- "1" ptype : "classifié par"
+
+' Note sur les contraintes
+note right of simulation
+  <b>Règles métier :</b>
+  • surface > 0 et ≤ 10000
+  • history = true pour l'archivage
+  • user_id nullable (mode anonyme)
+  ----
+  <b>Index optimisation :</b>
+  • idx_sim_user_history
+  • idx_solar_location
+end note
+
+note bottom : Vue : 4/5 - Modèle de données relationnel
+
+@enduml

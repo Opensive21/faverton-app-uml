@@ -1,0 +1,73 @@
+@startuml Architecture_Faverton_3_CoreService
+
+skinparam dpi 300
+skinparam componentFontSize 11
+skinparam fontSize 10
+skinparam packageFontSize 13
+skinparam backgroundColor white
+skinparam minClassWidth 170
+
+title <b>Architecture Faverton - Core Service</b>\n<size:10>Organisation de la logique métier</size>
+
+package "Core Service (Nitro)" #FFF3E0 {
+    
+    ' Endpoints API REST
+    component "API REST Endpoints" as API #FFE6CC {
+        component "/api/simulation" as ApiSim
+        component "/api/user" as ApiUser
+        component "/api/panels" as ApiPanels
+        component "/api/solar-potential" as ApiSolar
+    }
+    
+    ' Services métier
+    component "Services Métier" as Services #FFE6CC {
+        component "SimulatorCore" as Simulator
+        component "PriceCalculator" as Calculator
+        component "ProfileManager" as ProfileMgr
+        component "HistoryManager" as HistMgr
+    }
+    
+    ' Composables réutilisables
+    component "Composables" as Composables #FFE6CC {
+        component "useSimulation" as UseSim
+        component "useFetchJrc" as UseJrc
+        component "useAuth" as UseAuth
+        component "useFormatters" as UseFmt
+    }
+    
+    ' Interfaces
+    interface "IDataAccess" as IData
+    interface "IExternalAPI" as IExt
+}
+
+' Relations internes avec cardinalités
+ApiSim "1" ..> "1" Simulator : délègue
+ApiUser "1" ..> "1" ProfileMgr : gère
+ApiPanels "1" ..> "1" IData : consulte
+ApiSolar "1" ..> "1" IExt : proxy vers
+
+Simulator "1" --> "1" Calculator : "calcule\nrendement"
+Simulator "1" --> "1" HistMgr : "sauvegarde\nhistorique"
+Calculator "1" --> "1" IExt : "récupère\nensoleillement"
+
+UseSim "1" ..> "1" ApiSim : appelle
+UseJrc "1" ..> "1" ApiSolar : utilise
+UseAuth "1" ..> "1" ApiUser : vérifie
+
+' Note sur les calculs
+note right of Calculator
+  <b>Formules de calcul :</b>
+  ----
+  Production = Surface × 
+  Ensoleillement × Efficacité
+  ----
+  Revenu = Production ×
+  Prix_kWh × (1 - Pertes)
+  ----
+  Prix kWh = 0.1269€
+  Pertes système = 14%
+end note
+
+note bottom : Vue : 3/5 - Services et logique métier
+
+@enduml

@@ -1,0 +1,129 @@
+@startuml Faverton_Class_Diagram
+' Configuration
+skinparam class {
+    BackgroundColor #F5F5F5
+    BorderColor #333333
+    ArrowColor #666666
+    FontSize 12
+}
+skinparam stereotypeCBackgroundColor #FFE5B4
+skinparam stereotypeCBorderColor #FF9800
+
+title Diagramme de classes - Modèle métier Faverton
+
+' Classes principales basées sur le MCD fourni
+class Profile {
+    -id: UUID
+    -username: string
+    -avatar_url: string
+    -updated_at: Date
+    --
+    +updateProfile(): Promise<void>
+    +uploadAvatar(file: File): Promise<string>
+}
+
+class Simulation {
+    -simulation_id: UUID
+    -user_id: UUID
+    -panel_id: UUID
+    -solar_energy_id: UUID
+    -surface: number
+    -simulation_date: Date
+    -history: boolean
+    --
+    +calculate(): Promise<SimulationResult>
+    +saveToHistory(): Promise<void>
+    +delete(): Promise<void>
+}
+
+class Panel <<entity>> {
+    -panel_id: UUID
+    -panel_type_id: UUID
+    -model: string
+    -efficiency: number
+    -company: string
+    -country: string
+    -detail: string
+    --
+    +getEfficiencyRate(): number
+    +getDescription(): string
+}
+
+class PanelType <<entity>> {
+    -panel_type_id: UUID
+    -label: string
+    --
+    +getLabel(): string
+}
+
+class SolarEnergy <<entity>> {
+    -solar_energy_id: UUID
+    -postal_code: string
+    -city: string
+    -yearly_energy: number
+    -month_1_energy: number
+    -month_2_energy: number
+    -month_3_energy: number
+    -month_4_energy: number
+    -month_5_energy: number
+    -month_6_energy: number
+    -month_7_energy: number
+    -month_8_energy: number
+    -month_9_energy: number
+    -month_10_energy: number
+    -month_11_energy: number
+    -month_12_energy: number
+    --
+    +fetchFromJRC(lat: number, lon: number): Promise<void>
+    +getMonthlyAverage(): number
+    +getYearlyTotal(): number
+}
+
+class Alocate {
+    -alocate_id: UUID
+    -profile_id: UUID
+    -panel_id: UUID
+    --
+    +assignPanel(): Promise<void>
+}
+
+class SimulationResult {
+    -yearlyProduction: number
+    -yearlyRevenue: number
+    -monthlyBreakdown: MonthlyData[]
+    -surfaceArea: number
+    --
+    +generateChartData(): ChartData
+    +calculateTotalRevenue(): number
+}
+
+class MonthlyData {
+    -month: string
+    -energy: number
+    -euros: number
+    --
+    +formatForDisplay(): string
+}
+
+' Relations basées sur le MCD
+Profile "1" -- "0..*" Simulation : performs
+Profile "0..1" -- "0..*" Alocate : allocates
+Alocate "0..*" -- "1" Panel : references
+Simulation "0..*" -- "1" Panel : uses
+Simulation "0..*" -- "1" SolarEnergy : calculates from
+Panel "1..*" -- "1" PanelType : belongs to
+Simulation "1" -- "1" SimulationResult : produces
+SimulationResult "1" *-- "12" MonthlyData : contains
+
+note right of Profile
+  Géré par Supabase Auth
+  Accessible via la table profiles
+end note
+
+note left of SolarEnergy
+  Données mises en cache
+  pour éviter les appels
+  répétés à l'API JRC
+end note
+
+@enduml
