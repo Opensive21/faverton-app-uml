@@ -26,7 +26,7 @@ const login = async () => {
   <div class="flex flex-col justify-center bg-yellow-100 h-screen items-center gap-3">
     <div class="z-index-[999] fixed left-32 top-4">
       <UBreadcrumb
-        :links="[{ label: 'Introduction', to: '/introduction' }, { label: 'Se connecter' }]"
+        :links="[{ label: 'Accueil', to: '/introduction' }, { label: 'Se connecter' }]"
       >
         <template #default="{ link, isActive }">
           <UBadge
@@ -44,7 +44,7 @@ const login = async () => {
     </h1>
 
     <form
-      class="gap-4 flex flex-col w-1/4"
+      class="gap-4 flex flex-col sm:w-1/4"
       @submit.prevent="login"
     >
       <UInput
@@ -60,7 +60,7 @@ const login = async () => {
         color="primary"
         variant="outline"
         type="password"
-        placeholder="Password"
+        placeholder="Mot de passe"
         size="xl"
       />
       <div>

@@ -1,66 +1,57 @@
 <script setup lang="ts">
 import { DoubleSide } from "three";
 
-// const svgURL = `https://raw.githubusercontent.com/`
-//   + `Tresjs/assets/main/svgs/cientos_heart.svg`;
-const earth = `/models/earth.glb`;
-// const start = "public/Faverton logo.svg"
+const router = useRouter();
+
+const {
+  targetRotation,
+  needsUpdate,
+  initializeMouse,
+  cleanup,
+} = useMouse3D();
+
+const { updateRotation } = use3DRotation();
+const { updateEarthRotation } = useEarthRotation();
 
 const boxGroupRef = ref();
 const earthRef = ref();
-const mouse = ref({ x: 0, y: 0 });
-const currentRotation = ref({ x: 0, y: 0 });
+
+const earth = `/models/earth.glb`;
 
 const { onLoop } = useRenderLoop();
 
-const updateMousePosition = (event: MouseEvent) => {
-  mouse.value.x = event.clientX;
-  mouse.value.y = event.clientY;
-};
-
-const updateBoxRotation = () => {
-  if (boxGroupRef.value) {
-    const box = boxGroupRef.value;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
-    const dx = mouse.value.x - centerX;
-    const dy = mouse.value.y - centerY;
-
-    const targetX = Math.atan2(dy, window.innerHeight) * 0.9;
-    const targetY = Math.atan2(dx, window.innerWidth) * 0.9;
-
-    currentRotation.value.x += (targetX - currentRotation.value.x) * 0.05;
-    currentRotation.value.y += (targetY - currentRotation.value.y) * 0.05;
-
-    box.rotation.x = currentRotation.value.x;
-    box.rotation.y = currentRotation.value.y;
-  }
-};
-
-onLoop(() => {
-  updateBoxRotation();
-});
-
 onLoop(({ elapsed }) => {
-  if (earthRef.value) {
-    earthRef.value.rotation.y = elapsed * 0.1;
-  }
+  updateRotation(targetRotation, boxGroupRef, needsUpdate);
+  updateEarthRotation(earthRef, elapsed);
 });
 
 onMounted(() => {
-  window.addEventListener(`mousemove`, updateMousePosition);
+  initializeMouse();
 });
 
 onUnmounted(() => {
-  window.removeEventListener(`mousemove`, updateMousePosition);
+  cleanup();
 });
-const svgURL = `Faverton logo.svg`;
+
+const { isMobile } = useDevice();
+const isSmallScreen = computed(() => isMobile);
+
+const handlePointerEnter = () => {
+  document.body.style.cursor = `pointer`;
+};
+
+const handlePointerLeave = () => {
+  document.body.style.cursor = `default`;
+};
+
+const handleClick = () => {
+  router.push(`/introduction`);
+};
 </script>
 
 <template>
   <TresCanvas window-size>
-    <TresPerspectiveCamera :position="[0, -0.4, 5]" />
+    <TresPerspectiveCamera :position="!isSmallScreen? [0, 0, 5] : [0, 0, 8]" />
     <TresGroup>
       <TresGroup ref="boxGroupRef">
         <RoundedBox
@@ -72,13 +63,6 @@ const svgURL = `Faverton logo.svg`;
             :metalness="0.05"
           />
         </RoundedBox>
-        <Suspense>
-          <SVG
-            :src="svgURL"
-            :position="[-0.4, -0.4, 1.13]"
-            :scale="0.001"
-          />
-        </Suspense>
       </TresGroup>
       <Suspense>
         <TresGroup ref="earthRef">
@@ -88,6 +72,21 @@ const svgURL = `Faverton logo.svg`;
             :path="earth"
           />
         </TresGroup>
+      </Suspense>
+      <Suspense>
+        <Text3D
+          :text="'ENTRÉE'"
+          :font="'/fonts/Concert.json'"
+          :size="0.3"
+          :position="[0, 0, 1]"
+          :curve-segments="12"
+          :height="0.05"
+          @pointer-enter="handlePointerEnter"
+          @pointer-leave="handlePointerLeave"
+          @click="handleClick"
+        >
+          <MeshStandardMaterial color="#16A34A" />
+        </Text3D>
       </Suspense>
       <TresAmbientLight :intensity="1" />
       <TresDirectionalLight :intensity="1" />
